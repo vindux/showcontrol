@@ -22,8 +22,8 @@ namespace ShowControl.Services
         {
             try
             {
-                var templateDataJson = _jsonService.SerializeTemplateData(slide.TemplateData);
-                var message = CreateOscMessage("/slide", slide.Title, templateDataJson);
+                string templateDataJson = _jsonService.SerializeTemplateData(slide.TemplateData);
+                byte[] message = CreateOscMessage("/slide", slide.Title, templateDataJson);
                 SendMessage(message);
                 
                 Console.WriteLine($"OSC Message sent for slide: {slide.Title}");
@@ -38,8 +38,8 @@ namespace ShowControl.Services
         {
             try
             {
-                var templateDataJson = _jsonService.SerializeTemplateData(customButton.TemplateData);
-                var message = CreateOscMessage("/custom", customButton.Title, templateDataJson);
+                string templateDataJson = _jsonService.SerializeTemplateData(customButton.TemplateData);
+                byte[] message = CreateOscMessage("/custom", customButton.Title, templateDataJson);
                 SendMessage(message);
                 
                 Console.WriteLine($"OSC Message sent for custom button: {customButton.Title}");
@@ -54,7 +54,7 @@ namespace ShowControl.Services
         {
             try
             {
-                var message = CreateOscMessage("/take");
+                byte[] message = CreateOscMessage("/take");
                 SendMessage(message);
                 
                 Console.WriteLine("OSC Message sent for TAKE button");
@@ -70,7 +70,7 @@ namespace ShowControl.Services
             var message = new List<byte>();
             
             // OSC Address
-            var addressBytes = Encoding.ASCII.GetBytes(address);
+            byte[] addressBytes = Encoding.ASCII.GetBytes(address);
             message.AddRange(addressBytes);
             
             // Null terminator for address
@@ -83,8 +83,8 @@ namespace ShowControl.Services
             }
             
             // Type tag string
-            var typeTag = "," + new string('s', args.Length); // 's' for each string argument
-            var typeTagBytes = Encoding.ASCII.GetBytes(typeTag);
+            string typeTag = "," + new string('s', args.Length); // 's' for each string argument
+            byte[] typeTagBytes = Encoding.ASCII.GetBytes(typeTag);
             message.AddRange(typeTagBytes);
             
             // Null terminator for type tag
@@ -97,9 +97,9 @@ namespace ShowControl.Services
             }
             
             // Arguments
-            foreach (var arg in args)
+            foreach (string arg in args)
             {
-                var argBytes = Encoding.UTF8.GetBytes(arg);
+                byte[] argBytes = Encoding.UTF8.GetBytes(arg);
                 message.AddRange(argBytes);
                 
                 // Null terminator for argument
@@ -122,8 +122,8 @@ namespace ShowControl.Services
 
         public void Dispose()
         {
-            _udpClient?.Close();
-            _udpClient?.Dispose();
+            _udpClient.Close();
+            _udpClient.Dispose();
         }
     }
 }
