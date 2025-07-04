@@ -1,0 +1,12 @@
+﻿<Window x:Class="ShowControl.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Show Control" Height="800" Width="1200"
+        WindowStartupLocation="CenterScreen">
+    
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <StackPanel Name="MainPanel" Orientation="Vertical" Background="White">
+            <!-- Content will be added dynamically -->
+        </StackPanel>
+    </ScrollViewer>
+</Window>
