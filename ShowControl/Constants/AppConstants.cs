@@ -27,5 +27,9 @@
         public const int CustomButtonHeight = 80;
         public const int CustomButtonThumbnailWidth = 60;
         public const int CustomButtonThumbnailHeight = 50;
+        
+        // OSC Configuration
+        public const string DefaultOscHost = "127.0.0.1";
+        public const int DefaultOscPort = 18888;
     }
 }
