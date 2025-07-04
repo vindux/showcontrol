@@ -21,4 +21,12 @@
       </None>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="ico.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="Resources\icon.png" />
+    </ItemGroup>
+
 </Project>

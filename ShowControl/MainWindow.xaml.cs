@@ -41,9 +41,23 @@ namespace ShowControl
             InitializeComponent();
             InitializeServices();
             CreateUi();
-
+            
+            // Enable dark title bar when window is fully loaded
+            this.Loaded += MainWindow_Loaded;
+            
             SizeChanged += MainWindow_SizeChanged;
             Closing += MainWindow_Closing;
+        }
+
+        /// <summary>
+        /// Handles the window loaded event to apply dark title bar
+        /// </summary>
+        /// <param name="sender">The window</param>
+        /// <param name="e">Event arguments</param>
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Apply dark title bar
+            WindowHelper.EnableDarkTitleBar(this);
         }
 
         /// <summary>
@@ -287,18 +301,18 @@ namespace ShowControl
             StackPanel statusPanel = new StackPanel
             {
                 Orientation = Orientation.Horizontal,
-                Height = 30,
+                Height = 20, // Increased from 30 to 40 to accommodate larger text
                 Margin = new Thickness(0, 0, 0, 5)
             };
 
             _eventNameLabel = new TextBlock
             {
                 Text = "",
-                FontSize = 16,
+                FontSize = 24,
                 FontWeight = FontWeights.Bold,
                 VerticalAlignment = VerticalAlignment.Center,
                 Margin = new Thickness(10, 0, 20, 0),
-                Foreground = new SolidColorBrush(UiHelper.Colors.LightBlueAccent),
+                Foreground = new SolidColorBrush(UiHelper.Colors.GoldenYellow),
                 Visibility = Visibility.Collapsed
             };
 
@@ -694,7 +708,7 @@ namespace ShowControl
                 FontSize = 18,
                 FontWeight = FontWeights.SemiBold,
                 Margin = new Thickness(10, 20, 10, 10),
-                Foreground = new SolidColorBrush(UiHelper.Colors.LightBlueAccent)
+                Foreground = new SolidColorBrush(UiHelper.Colors.DarkerGolden)
             };
             _mainPanel.Children.Add(chapterTitle);
 

@@ -1,6 +1,6 @@
 ﻿{
   "controlSettings": {
-    "buttonsPerRow": 10
+    "buttonsPerRow": 9
   },
   "event": "Test Event",
   "custom": [

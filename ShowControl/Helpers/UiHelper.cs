@@ -67,9 +67,14 @@ namespace ShowControl.Helpers
             public static readonly Color ButtonBorder = Color.FromRgb(80, 80, 80);
             
             /// <summary>
-            /// Light blue accent color for highlights and emphasis
+            /// Golden yellow accent color for event title
             /// </summary>
-            public static readonly Color LightBlueAccent = Color.FromRgb(100, 150, 255);
+            public static readonly Color GoldenYellow = Color.FromRgb(255, 225, 0);
+            
+            /// <summary>
+            /// Darker golden color for highlights and emphasis
+            /// </summary>
+            public static readonly Color DarkerGolden = Color.FromRgb(204, 179, 0);
             
             /// <summary>
             /// Light red color for error messages and warnings
