@@ -5,8 +5,15 @@ using System.Windows.Media;
 
 namespace ShowControl.Helpers
 {
+    /// <summary>
+    /// Static helper class providing UI-related utilities and styling
+    /// </summary>
     public static class UiHelper
     {
+        /// <summary>
+        /// Creates a flat button template without hover effects for consistent styling
+        /// </summary>
+        /// <returns>A ControlTemplate configured for flat button appearance</returns>
         public static ControlTemplate CreateFlatButtonTemplate()
         {
             ControlTemplate template = new ControlTemplate(typeof(Button));
@@ -29,15 +36,49 @@ namespace ShowControl.Helpers
             return template;
         }
 
+        /// <summary>
+        /// Static class containing predefined color constants for consistent theming
+        /// </summary>
         public static class Colors
         {
+            /// <summary>
+            /// Dark background color for main application areas
+            /// </summary>
             public static readonly Color DarkBackground = Color.FromRgb(32, 32, 32);
+            
+            /// <summary>
+            /// Dark gray color for header and footer areas
+            /// </summary>
             public static readonly Color DarkGray = Color.FromRgb(45, 45, 45);
+            
+            /// <summary>
+            /// Light gray color for borders and dividers
+            /// </summary>
             public static readonly Color LightGray = Color.FromRgb(64, 64, 64);
+            
+            /// <summary>
+            /// Background color for buttons and interactive elements
+            /// </summary>
             public static readonly Color ButtonBackground = Color.FromRgb(50, 50, 50);
+            
+            /// <summary>
+            /// Border color for buttons and interactive elements
+            /// </summary>
             public static readonly Color ButtonBorder = Color.FromRgb(80, 80, 80);
+            
+            /// <summary>
+            /// Light blue accent color for highlights and emphasis
+            /// </summary>
             public static readonly Color LightBlueAccent = Color.FromRgb(100, 150, 255);
+            
+            /// <summary>
+            /// Light red color for error messages and warnings
+            /// </summary>
             public static readonly Color LightRed = Color.FromRgb(255, 100, 100);
+            
+            /// <summary>
+            /// Light gray color for secondary text and labels
+            /// </summary>
             public static readonly Color LightGrayText = Color.FromRgb(200, 200, 200);
         }
     }

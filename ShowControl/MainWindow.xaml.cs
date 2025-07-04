@@ -12,6 +12,8 @@ namespace ShowControl
 {
     public partial class MainWindow : Window
     {
+        #region Private Fields
+        
         private string _currentJsonPath = "";
         private FileWatcherService _fileWatcherService;
         private JsonService _jsonService;
@@ -26,13 +28,24 @@ namespace ShowControl
         private StackPanel _customButtonsPanel;
         private int _buttonsPerRow = AppConstants.DefaultButtonsPerRow;
         private double _windowWidth = AppConstants.DefaultWindowWidth;
-        private bool _userHasManuallyChangedButtonsPerRow = false; // Track manual changes
+        private bool _userHasManuallyChangedButtonsPerRow = false;
+        
+        #endregion
+
+        #region Dynamic Size Properties
         
         private int ButtonWidth => (int)((_windowWidth - 60) / _buttonsPerRow) - 10;
         private int ButtonHeight => (int)(ButtonWidth * AppConstants.ButtonAspectRatio);
         private int ThumbnailWidth => (int)(ButtonWidth * AppConstants.ThumbnailSizeRatio);
         private int ThumbnailHeight => (int)(ThumbnailWidth * AppConstants.ThumbnailAspectRatio);
+        
+        #endregion
 
+        #region Constructor and Initialization
+        
+        /// <summary>
+        /// Initializes a new instance of the MainWindow class
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -43,37 +56,59 @@ namespace ShowControl
             Closing += MainWindow_Closing;
         }
 
+        /// <summary>
+        /// Initializes all required services for the application
+        /// </summary>
         private void InitializeServices()
         {
             _jsonService = new JsonService();
             _fileWatcherService = new FileWatcherService(OnFileChanged);
             _oscService = new OscService(AppConstants.DefaultOscHost, AppConstants.DefaultOscPort);
         }
+        
+        #endregion
 
+        #region Event Handlers
+        
+        /// <summary>
+        /// Handles window size change events to update button layout
+        /// </summary>
+        /// <param name="sender">The window that triggered the event</param>
+        /// <param name="e">Event arguments containing size information</param>
         private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             _windowWidth = e.NewSize.Width;
+
+            if (string.IsNullOrEmpty(_currentJsonPath)) return;
             
-            if (!string.IsNullOrEmpty(_currentJsonPath))
+            if (_userHasManuallyChangedButtonsPerRow)
             {
-                // If user has manually changed buttons per row, preserve that setting
-                if (_userHasManuallyChangedButtonsPerRow)
-                {
-                    LoadShowDataWithManualButtonsPerRow();
-                }
-                else
-                {
-                    LoadShowData();
-                }
+                LoadShowDataWithManualButtonsPerRow();
+            }
+            else
+            {
+                LoadShowData();
             }
         }
 
+        /// <summary>
+        /// Handles window closing event to clean up resources
+        /// </summary>
+        /// <param name="sender">The window that triggered the event</param>
+        /// <param name="e">Event arguments for window closing</param>
         private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
         {
             _fileWatcherService.Dispose();
             _oscService.Dispose();
         }
+        
+        #endregion
 
+        #region UI Creation Methods
+        
+        /// <summary>
+        /// Creates the main user interface layout programmatically
+        /// </summary>
         private void CreateUi()
         {
             Grid mainGrid = new Grid();
@@ -98,6 +133,10 @@ namespace ShowControl
             Background = new SolidColorBrush(UiHelper.Colors.DarkBackground);
         }
 
+        /// <summary>
+        /// Creates the top bar containing file controls and status information
+        /// </summary>
+        /// <returns>Border element containing the top bar layout</returns>
         private Border CreateTopBar()
         {
             Border topBarBorder = new Border
@@ -124,6 +163,10 @@ namespace ShowControl
             return topBarBorder;
         }
 
+        /// <summary>
+        /// Creates the controls panel containing file selection and button configuration
+        /// </summary>
+        /// <returns>StackPanel containing the controls layout</returns>
         private StackPanel CreateControlsPanel()
         {
             StackPanel controlsPanel = new StackPanel
@@ -147,6 +190,10 @@ namespace ShowControl
             return controlsPanel;
         }
 
+        /// <summary>
+        /// Creates the file selection button for choosing JSON files
+        /// </summary>
+        /// <returns>Button configured for file selection</returns>
         private Button CreateSelectFileButton()
         {
             Button button = new Button
@@ -166,6 +213,10 @@ namespace ShowControl
             return button;
         }
 
+        /// <summary>
+        /// Creates the label displaying the currently selected file name
+        /// </summary>
+        /// <returns>TextBlock configured for file name display</returns>
         private static TextBlock CreateCurrentFileLabel()
         {
             return new TextBlock
@@ -178,6 +229,10 @@ namespace ShowControl
             };
         }
 
+        /// <summary>
+        /// Creates the buttons per row control group with increase/decrease buttons
+        /// </summary>
+        /// <returns>Array of UI elements for buttons per row controls</returns>
         private UIElement[] CreateButtonsPerRowControls()
         {
             TextBlock buttonsPerRowLabel = new TextBlock
@@ -235,6 +290,10 @@ namespace ShowControl
             return [buttonsPerRowLabel, decreaseButton, _buttonsPerRowLabel, increaseButton];
         }
 
+        /// <summary>
+        /// Creates the status panel containing event name and error message displays
+        /// </summary>
+        /// <returns>StackPanel containing the status layout</returns>
         private StackPanel CreateStatusPanel()
         {
             StackPanel statusPanel = new StackPanel
@@ -271,6 +330,10 @@ namespace ShowControl
             return statusPanel;
         }
 
+        /// <summary>
+        /// Creates the scrollable content area for displaying slides
+        /// </summary>
+        /// <returns>ScrollViewer containing the main content panel</returns>
         private ScrollViewer CreateScrollViewer()
         {
             ScrollViewer scrollViewer = new ScrollViewer
@@ -290,6 +353,10 @@ namespace ShowControl
             return scrollViewer;
         }
 
+        /// <summary>
+        /// Creates the footer containing custom buttons and the TAKE button
+        /// </summary>
+        /// <returns>Border element containing the footer layout</returns>
         private Border CreateFooter()
         {
             Border footerBorder = new Border
@@ -336,7 +403,16 @@ namespace ShowControl
 
             return footerBorder;
         }
+        
+        #endregion
 
+        #region File Management Methods
+        
+        /// <summary>
+        /// Handles the file selection button click event
+        /// </summary>
+        /// <param name="sender">The button that triggered the event</param>
+        /// <param name="e">Event arguments for the click</param>
         private void SelectFileButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -354,6 +430,9 @@ namespace ShowControl
             LoadShowData();
         }
 
+        /// <summary>
+        /// Updates the current file label with the selected file name
+        /// </summary>
         private void UpdateCurrentFileLabel()
         {
             _currentFileLabel.Text = string.IsNullOrEmpty(_currentJsonPath) 
@@ -361,39 +440,9 @@ namespace ShowControl
                 : $"{AppConstants.FilePrefix}{Path.GetFileName(_currentJsonPath)}";
         }
 
-        private void DecreaseButtonsPerRow_Click(object sender, RoutedEventArgs e)
-        {
-            if (_buttonsPerRow <= AppConstants.MinButtonsPerRow) return;
-
-            _buttonsPerRow--;
-            _userHasManuallyChangedButtonsPerRow = true; // Mark as manually changed
-            UpdateButtonsPerRowDisplay();
-                
-            if (!string.IsNullOrEmpty(_currentJsonPath))
-            {
-                LoadShowDataWithManualButtonsPerRow();
-            }
-        }
-
-        private void IncreaseButtonsPerRow_Click(object sender, RoutedEventArgs e)
-        {
-            if (_buttonsPerRow >= AppConstants.MaxButtonsPerRow) return;
-            
-            _buttonsPerRow++;
-            _userHasManuallyChangedButtonsPerRow = true; // Mark as manually changed
-            UpdateButtonsPerRowDisplay();
-                
-            if (!string.IsNullOrEmpty(_currentJsonPath))
-            {
-                LoadShowDataWithManualButtonsPerRow();
-            }
-        }
-
-        private void UpdateButtonsPerRowDisplay()
-        {
-            _buttonsPerRowLabel.Text = _buttonsPerRow.ToString();
-        }
-
+        /// <summary>
+        /// Sets up file system monitoring for the currently selected JSON file
+        /// </summary>
         private void SetupFileWatcher()
         {
             try
@@ -406,6 +455,9 @@ namespace ShowControl
             }
         }
 
+        /// <summary>
+        /// Handles file change notifications from the file watcher
+        /// </summary>
         private void OnFileChanged()
         {
             Dispatcher.Invoke(() =>
@@ -421,7 +473,64 @@ namespace ShowControl
                 }
             });
         }
+        
+        #endregion
 
+        #region Button Control Methods
+        
+        /// <summary>
+        /// Handles the decrease buttons per row button click
+        /// </summary>
+        /// <param name="sender">The button that triggered the event</param>
+        /// <param name="e">Event arguments for the click</param>
+        private void DecreaseButtonsPerRow_Click(object sender, RoutedEventArgs e)
+        {
+            if (_buttonsPerRow <= AppConstants.MinButtonsPerRow) return;
+
+            _buttonsPerRow--;
+            _userHasManuallyChangedButtonsPerRow = true; // Mark as manually changed
+            UpdateButtonsPerRowDisplay();
+                
+            if (!string.IsNullOrEmpty(_currentJsonPath))
+            {
+                LoadShowDataWithManualButtonsPerRow();
+            }
+        }
+
+        /// <summary>
+        /// Handles the increase buttons per row button click
+        /// </summary>
+        /// <param name="sender">The button that triggered the event</param>
+        /// <param name="e">Event arguments for the click</param>
+        private void IncreaseButtonsPerRow_Click(object sender, RoutedEventArgs e)
+        {
+            if (_buttonsPerRow >= AppConstants.MaxButtonsPerRow) return;
+            
+            _buttonsPerRow++;
+            _userHasManuallyChangedButtonsPerRow = true; // Mark as manually changed
+            UpdateButtonsPerRowDisplay();
+                
+            if (!string.IsNullOrEmpty(_currentJsonPath))
+            {
+                LoadShowDataWithManualButtonsPerRow();
+            }
+        }
+
+        /// <summary>
+        /// Updates the display of the current buttons per row value
+        /// </summary>
+        private void UpdateButtonsPerRowDisplay()
+        {
+            _buttonsPerRowLabel.Text = _buttonsPerRow.ToString();
+        }
+        
+        #endregion
+
+        #region Data Loading Methods
+        
+        /// <summary>
+        /// Loads show data from the current JSON file and applies all settings
+        /// </summary>
         private void LoadShowData()
         {
             try
@@ -436,6 +545,9 @@ namespace ShowControl
             }
         }
 
+        /// <summary>
+        /// Loads show data while preserving manual button per row settings
+        /// </summary>
         private void LoadShowDataWithManualButtonsPerRow()
         {
             try
@@ -449,7 +561,15 @@ namespace ShowControl
                 ShowErrorMessage($"Error loading data: {ex.Message}");
             }
         }
+        
+        #endregion
 
+        #region UI Building Methods
+        
+        /// <summary>
+        /// Builds the complete UI from loaded show data, applying JSON settings
+        /// </summary>
+        /// <param name="showData">The show data to build the UI from</param>
         private void BuildUi(ShowData showData)
         {
             _mainPanel.Children.Clear();
@@ -467,6 +587,10 @@ namespace ShowControl
             AddChaptersToUi(showData.Content);
         }
 
+        /// <summary>
+        /// Builds the UI while preserving manual button per row settings
+        /// </summary>
+        /// <param name="showData">The show data to build the UI from</param>
         private void BuildUiWithManualSettings(ShowData showData)
         {
             _mainPanel.Children.Clear();
@@ -475,12 +599,20 @@ namespace ShowControl
             AddChaptersToUi(showData.Content);
         }
 
+        /// <summary>
+        /// Updates the event name display in the status bar
+        /// </summary>
+        /// <param name="eventName">The event name to display</param>
         private void UpdateEventName(string eventName)
         {
             _eventNameLabel.Text = eventName;
             _eventNameLabel.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// Builds custom buttons in the footer from the provided data
+        /// </summary>
+        /// <param name="customButtons">List of custom button data</param>
         private void BuildCustomButtons(List<CustomButton> customButtons)
         {
             _customButtonsPanel.Children.Clear();
@@ -493,6 +625,11 @@ namespace ShowControl
             }
         }
 
+        /// <summary>
+        /// Creates a single custom button UI element
+        /// </summary>
+        /// <param name="customButtonData">The data for the custom button</param>
+        /// <returns>Button element configured as a custom button</returns>
         private Button CreateCustomButton(CustomButton customButtonData)
         {
             Button button = new Button
@@ -541,6 +678,10 @@ namespace ShowControl
             return button;
         }
 
+        /// <summary>
+        /// Adds all chapters and their slides to the main UI
+        /// </summary>
+        /// <param name="chapters">List of chapters to add</param>
         private void AddChaptersToUi(List<Chapter> chapters)
         {
             _thumbnailService = new ThumbnailService(Path.GetDirectoryName(_currentJsonPath) ?? AppDomain.CurrentDomain.BaseDirectory);
@@ -551,6 +692,10 @@ namespace ShowControl
             }
         }
 
+        /// <summary>
+        /// Adds a single chapter section with its slides to the UI
+        /// </summary>
+        /// <param name="chapter">The chapter to add</param>
         private void AddChapterSection(Chapter chapter)
         {
             TextBlock chapterTitle = new TextBlock
@@ -579,6 +724,11 @@ namespace ShowControl
             _mainPanel.Children.Add(wrapPanel);
         }
 
+        /// <summary>
+        /// Creates a single slide button UI element
+        /// </summary>
+        /// <param name="slide">The slide data to create a button for</param>
+        /// <returns>Button element configured as a slide button</returns>
         private Button CreateSlideButton(Slide slide)
         {
             Button button = new Button
@@ -625,15 +775,21 @@ namespace ShowControl
 
             return button;
         }
+        
+        #endregion
 
+        #region Button Click Handlers
+        
+        /// <summary>
+        /// Handles custom button click events and sends OSC messages
+        /// </summary>
+        /// <param name="customButton">The custom button that was clicked</param>
         private void OnCustomButtonClick(CustomButton customButton)
         {
             try
             {
-                // Send OSC message
                 _oscService.SendCustomButtonMessage(customButton);
                 
-                // Optional: Still show message box for debugging
                 // string templateDataJson = _jsonService.SerializeTemplateData(customButton.TemplateData);
                 // MessageBox.Show($"Custom Button: {customButton.Title}\nOSC Message sent!\nTemplate Data:\n{templateDataJson}", 
                 //     "Custom Button Clicked", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -645,14 +801,16 @@ namespace ShowControl
             }
         }
 
+        /// <summary>
+        /// Handles slide button click events and sends OSC messages
+        /// </summary>
+        /// <param name="slide">The slide that was clicked</param>
         private void OnSlideButtonClick(Slide slide)
         {
             try
             {
-                // Send OSC message
                 _oscService.SendSlideMessage(slide);
                 
-                // Optional: Still show message box for debugging
                 // string templateDataJson = _jsonService.SerializeTemplateData(slide.TemplateData);
                 // MessageBox.Show($"Slide: {slide.Title}\nOSC Message sent!\nTemplate Data:\n{templateDataJson}", 
                 //     "Slide Clicked", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -664,14 +822,17 @@ namespace ShowControl
             }
         }
 
+        /// <summary>
+        /// Handles the TAKE button click event and sends OSC message
+        /// </summary>
+        /// <param name="sender">The button that triggered the event</param>
+        /// <param name="e">Event arguments for the click</param>
         private void TakeButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                // Send OSC message
                 _oscService.SendTakeMessage();
                 
-                // Optional: Still show message box for debugging
                 // MessageBox.Show("TAKE button clicked!\nOSC Message sent!", "Action", 
                 //     MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -681,16 +842,29 @@ namespace ShowControl
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        
+        #endregion
 
+        #region Error Handling Methods
+        
+        /// <summary>
+        /// Displays an error message in the status bar
+        /// </summary>
+        /// <param name="message">The error message to display</param>
         private void ShowErrorMessage(string message)
         {
             _errorMessage.Text = message;
             _errorMessage.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// Hides the error message in the status bar
+        /// </summary>
         private void HideErrorMessage()
         {
             _errorMessage.Visibility = Visibility.Collapsed;
         }
+        
+        #endregion
     }
 }
