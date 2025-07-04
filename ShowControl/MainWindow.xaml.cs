@@ -26,6 +26,7 @@ namespace ShowControl
         private StackPanel _customButtonsPanel;
         private int _buttonsPerRow = AppConstants.DefaultButtonsPerRow;
         private double _windowWidth = AppConstants.DefaultWindowWidth;
+        private bool _userHasManuallyChangedButtonsPerRow = false; // Track manual changes
         
         private int ButtonWidth => (int)((_windowWidth - 60) / _buttonsPerRow) - 10;
         private int ButtonHeight => (int)(ButtonWidth * AppConstants.ButtonAspectRatio);
@@ -55,7 +56,15 @@ namespace ShowControl
             
             if (!string.IsNullOrEmpty(_currentJsonPath))
             {
-                LoadShowData();
+                // If user has manually changed buttons per row, preserve that setting
+                if (_userHasManuallyChangedButtonsPerRow)
+                {
+                    LoadShowDataWithManualButtonsPerRow();
+                }
+                else
+                {
+                    LoadShowData();
+                }
             }
         }
 
@@ -339,6 +348,7 @@ namespace ShowControl
             if (openFileDialog.ShowDialog() != true) return;
 
             _currentJsonPath = openFileDialog.FileName;
+            _userHasManuallyChangedButtonsPerRow = false; // Reset when loading new file
             UpdateCurrentFileLabel();
             SetupFileWatcher();
             LoadShowData();
@@ -356,6 +366,7 @@ namespace ShowControl
             if (_buttonsPerRow <= AppConstants.MinButtonsPerRow) return;
 
             _buttonsPerRow--;
+            _userHasManuallyChangedButtonsPerRow = true; // Mark as manually changed
             UpdateButtonsPerRowDisplay();
                 
             if (!string.IsNullOrEmpty(_currentJsonPath))
@@ -369,6 +380,7 @@ namespace ShowControl
             if (_buttonsPerRow >= AppConstants.MaxButtonsPerRow) return;
             
             _buttonsPerRow++;
+            _userHasManuallyChangedButtonsPerRow = true; // Mark as manually changed
             UpdateButtonsPerRowDisplay();
                 
             if (!string.IsNullOrEmpty(_currentJsonPath))
@@ -396,7 +408,18 @@ namespace ShowControl
 
         private void OnFileChanged()
         {
-            Dispatcher.Invoke(LoadShowData);
+            Dispatcher.Invoke(() =>
+            {
+                // If user has manually changed buttons per row, preserve that setting
+                if (_userHasManuallyChangedButtonsPerRow)
+                {
+                    LoadShowDataWithManualButtonsPerRow();
+                }
+                else
+                {
+                    LoadShowData();
+                }
+            });
         }
 
         private void LoadShowData()
@@ -431,7 +454,8 @@ namespace ShowControl
         {
             _mainPanel.Children.Clear();
 
-            if (showData.ControlSettings.ButtonsPerRow.HasValue)
+            // Only apply JSON settings if user hasn't manually changed them
+            if (!_userHasManuallyChangedButtonsPerRow && showData.ControlSettings.ButtonsPerRow.HasValue)
             {
                 _buttonsPerRow = Math.Max(AppConstants.MinButtonsPerRow, 
                     Math.Min(AppConstants.MaxButtonsPerRow, showData.ControlSettings.ButtonsPerRow.Value));
