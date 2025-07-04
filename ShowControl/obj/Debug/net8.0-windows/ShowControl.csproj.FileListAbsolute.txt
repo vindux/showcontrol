@@ -21,4 +21,5 @@ C:\Users\maspi\RiderProjects\ShowControl\ShowControl\bin\Debug\net8.0-windows\Ne
 C:\Users\maspi\RiderProjects\ShowControl\ShowControl\obj\Debug\net8.0-windows\ShowControl.csproj.AssemblyReference.cache
 C:\Users\maspi\RiderProjects\ShowControl\ShowControl\obj\Debug\net8.0-windows\ShowCont.093C219E.Up2Date
 C:\Users\maspi\RiderProjects\ShowControl\ShowControl\bin\Debug\net8.0-windows\data.json
+C:\Users\maspi\RiderProjects\ShowControl\ShowControl\obj\Debug\net8.0-windows\ShowControl.sourcelink.json
 C:\Users\maspi\RiderProjects\ShowControl\ShowControl\bin\Debug\net8.0-windows\missing-image.png

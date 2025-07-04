@@ -6,6 +6,16 @@
   "custom": [
     {
       "thumbnail": "/thumb/slide-1-1.png",
+      "title": "Custom 0",
+      "templateData": {
+        "@": "ventuz://templates/ingame/Scene",
+        "FirstLine": "First Line 1 1",
+        "FirstAdd": "Addon Text 1 1",
+        "SecondLine": "Second Line 1 1"
+      }
+    },
+    {
+      "thumbnail": "/thumb/slide-1-1.png",
       "title": "Custom 1",
       "templateData": {
         "@": "ventuz://templates/ingame/Scene",
