@@ -23,3 +23,4 @@ C:\Users\maspi\RiderProjects\ShowControl\ShowControl\obj\Debug\net8.0-windows\Sh
 C:\Users\maspi\RiderProjects\ShowControl\ShowControl\bin\Debug\net8.0-windows\data.json
 C:\Users\maspi\RiderProjects\ShowControl\ShowControl\obj\Debug\net8.0-windows\ShowControl.sourcelink.json
 C:\Users\maspi\RiderProjects\ShowControl\ShowControl\bin\Debug\net8.0-windows\missing-image.png
+C:\Users\maspi\RiderProjects\ShowControl\ShowControl\bin\Debug\net8.0-windows\data-with-very-long-file-name.json

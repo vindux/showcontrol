@@ -308,7 +308,7 @@ namespace ShowControl
             _eventNameLabel = new TextBlock
             {
                 Text = "",
-                FontSize = 24,
+                FontSize = 20,
                 FontWeight = FontWeights.Bold,
                 VerticalAlignment = VerticalAlignment.Center,
                 Margin = new Thickness(10, 0, 20, 0),
