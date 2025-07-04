@@ -16,6 +16,7 @@ namespace ShowControl
         private FileWatcherService _fileWatcherService;
         private JsonService _jsonService;
         private ThumbnailService _thumbnailService;
+        private OscService _oscService;
         
         private TextBlock _errorMessage;
         private TextBlock _eventNameLabel;
@@ -45,6 +46,7 @@ namespace ShowControl
         {
             _jsonService = new JsonService();
             _fileWatcherService = new FileWatcherService(OnFileChanged);
+            _oscService = new OscService(AppConstants.DefaultOscHost, AppConstants.DefaultOscPort);
         }
 
         private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -60,6 +62,7 @@ namespace ShowControl
         private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
         {
             _fileWatcherService.Dispose();
+            _oscService.Dispose();
         }
 
         private void CreateUi()
@@ -603,15 +606,17 @@ namespace ShowControl
         {
             try
             {
-                string templateDataJson = _jsonService.SerializeTemplateData(customButton.TemplateData);
-                Console.WriteLine($"Custom button clicked: {templateDataJson}");
-
-                MessageBox.Show($"Custom Button: {customButton.Title}\nTemplate Data:\n{templateDataJson}", 
-                    "Custom Button Clicked", MessageBoxButton.OK, MessageBoxImage.Information);
+                // Send OSC message
+                _oscService.SendCustomButtonMessage(customButton);
+                
+                // Optional: Still show message box for debugging
+                // string templateDataJson = _jsonService.SerializeTemplateData(customButton.TemplateData);
+                // MessageBox.Show($"Custom Button: {customButton.Title}\nOSC Message sent!\nTemplate Data:\n{templateDataJson}", 
+                //     "Custom Button Clicked", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error serializing custom button template data: {ex.Message}", "Error", 
+                MessageBox.Show($"Error with custom button: {ex.Message}", "Error", 
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -620,22 +625,37 @@ namespace ShowControl
         {
             try
             {
-                string templateDataJson = _jsonService.SerializeTemplateData(slide.TemplateData);
-                Console.WriteLine(templateDataJson);
-
-                MessageBox.Show($"Template Data:\n{templateDataJson}", "Slide Clicked", 
-                    MessageBoxButton.OK, MessageBoxImage.Information);
+                // Send OSC message
+                _oscService.SendSlideMessage(slide);
+                
+                // Optional: Still show message box for debugging
+                // string templateDataJson = _jsonService.SerializeTemplateData(slide.TemplateData);
+                // MessageBox.Show($"Slide: {slide.Title}\nOSC Message sent!\nTemplate Data:\n{templateDataJson}", 
+                //     "Slide Clicked", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error serializing template data: {ex.Message}", "Error", 
+                MessageBox.Show($"Error with slide: {ex.Message}", "Error", 
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private static void TakeButton_Click(object sender, RoutedEventArgs e)
+        private void TakeButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("TAKE button clicked!", "Action", MessageBoxButton.OK, MessageBoxImage.Information);
+            try
+            {
+                // Send OSC message
+                _oscService.SendTakeMessage();
+                
+                // Optional: Still show message box for debugging
+                // MessageBox.Show("TAKE button clicked!\nOSC Message sent!", "Action", 
+                //     MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error with TAKE button: {ex.Message}", "Error", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ShowErrorMessage(string message)
