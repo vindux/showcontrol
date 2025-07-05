@@ -1,7 +1,5 @@
 # ShowControl - TODO List
 
-## High Priority
-
 ### Feedback on button press
 - [ ] Color change on slide/custom button press
 - [ ] Change slide border color on press, listen to osc acknowledgement and change last pressed slide button accordingly to what was received
