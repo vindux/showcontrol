@@ -1,174 +1,57 @@
 ﻿{
   "controlSettings": {
-    "buttonsPerRow": 9
+    "buttonsPerRow": 7
   },
-  "event": "Test Event",
+  "event": "Event Name",
   "custom": [
     {
-      "thumbnail": "/thumb/slide-1-1.png",
-      "title": "Custom 0",
+      "thumbnail": "/path/to/thumbnail.png",
+      "title": "Custom Button",
       "templateData": {
-        "@": "ventuz://templates/ingame/Scene",
-        "FirstLine": "First Line 1 1",
-        "FirstAdd": "Addon Text 1 1",
-        "SecondLine": "Second Line 1 1"
-      }
-    },
-    {
-      "thumbnail": "/thumb/slide-1-1.png",
-      "title": "Custom 1",
-      "templateData": {
-        "@": "ventuz://templates/ingame/Scene",
-        "FirstLine": "First Line 1 1",
-        "FirstAdd": "Addon Text 1 1",
-        "SecondLine": "Second Line 1 1"
-      }
-    },
-    {
-      "thumbnail": "/thumb/slide-1-1.png",
-      "title": "Custom 2",
-      "templateData": {
-        "@": "ventuz://templates/ingame/Scene",
-        "FirstLine": "First Line 1 1",
-        "FirstAdd": "Addon Text 1 1",
-        "SecondLine": "Second Line 1 1"
+        "@": "template/path",
+        "property": "value"
       }
     }
   ],
   "content": [
     {
-      "chapter": "Chapter 1",
+      "chapter": "Chapter Name",
       "slides": [
         {
-          "thumbnail": "/thumb/slide-1-1.png",
-          "title": "Slide 1 1",
+          "thumbnail": "/path/to/slide/thumbnail.png",
+          "title": "Slide Title",
           "templateData": {
-            "@": "ventuz://templates/ingame/Scene",
-            "FirstLine": "First Line 1 1",
-            "FirstAdd": "Addon Text 1 1",
-            "SecondLine": "Second Line 1 1"
+            "@": "template/path",
+            "property": "value"
           }
         },
         {
-          "thumbnail": "/thumb/slide-1-2.png",
-          "title": "Slide 1 2",
+          "thumbnail": "/path/to/slide/thumbnail.png",
+          "title": "Slide Title",
           "templateData": {
-            "@": "ventuz://templates/ingame/Happy",
-            "FirstLine": "First Line 1 2",
-            "FirstAdd": "Addon Text 1 2"
-          }
-        },
-        {
-          "thumbnail": "/thumb/slide-1-3.png",
-          "title": "Slide 1 3",
-          "templateData": {
-            "@": "ventuz://templates/ingame/Scene",
-            "FirstLine": "First Line 1 3",
-            "FirstAdd": "Addon Text 1 3",
-            "SecondLine": "Second Line 1 3"
+            "@": "template/path",
+            "property": "value"
           }
         }
       ]
     },
     {
-      "chapter": "Chapter 2",
+      "chapter": "Chapter Name",
       "slides": [
         {
-          "thumbnail": "/thumb/slide-2-1.png",
-          "title": "Slide 2 1",
+          "thumbnail": "/path/to/slide/thumbnail.png",
+          "title": "Slide Title",
           "templateData": {
-            "@": "ventuz://templates/ingame/Scene",
-            "FirstLine": "First Line 2 1",
-            "FirstAdd": "Addon Text 2 1",
-            "SecondLine": "Second Line 2 1"
+            "@": "template/path",
+            "property": "value"
           }
         },
         {
-          "thumbnail": "C:/Users/maspi/RiderProjects/ShowControl/ShowControl/random.jpg",
-          "title": "Slide 2 2",
+          "thumbnail": "/path/to/slide/thumbnail.png",
+          "title": "Slide Title",
           "templateData": {
-            "@": "ventuz://templates/ingame/Happy",
-            "FirstLine": "First Line 2 2",
-            "FirstAdd": "Addon Text 2 2"
-          }
-        },
-        {
-          "thumbnail": "/thumb/slide-2-3.png",
-          "title": "Slide 2 3",
-          "templateData": {
-            "@": "ventuz://templates/ingame/Scene",
-            "FirstLine": "First Line 2 3",
-            "FirstAdd": "Addon Text 2 3",
-            "SecondLine": "Second Line 2 3"
-          }
-        },
-        {
-          "thumbnail": "/thumb/slide-2-3.png",
-          "title": "this is a test",
-          "templateData": {
-            "@": "ventuz://templates/ingame/Scene",
-            "FirstLine": "First Line 2 3",
-            "FirstAdd": "Addon Text 2 3",
-            "SecondLine": "Second Line 2 3"
-          }
-        },
-        {
-          "thumbnail": "C:/Users/maspi/RiderProjects/ShowControl/ShowControl/pumpkin.png",
-          "title": "Slide 2 2",
-          "templateData": {
-            "@": "ventuz://templates/ingame/Happy",
-            "FirstLine": "First Line 2 2",
-            "FirstAdd": "Addon Text 2 2"
-          }
-        },
-        {
-          "thumbnail": "/thumb/slide-2-3.png",
-          "title": "Slide 2 3",
-          "templateData": {
-            "@": "ventuz://templates/ingame/Scene",
-            "FirstLine": "First Line 2 3",
-            "FirstAdd": "Addon Text 2 3",
-            "SecondLine": "Second Line 2 3"
-          }
-        },
-        {
-          "thumbnail": "/thumb/slide-2-3.png",
-          "title": "this is a test",
-          "templateData": {
-            "@": "ventuz://templates/ingame/Scene",
-            "FirstLine": "First Line 2 3",
-            "FirstAdd": "Addon Text 2 3",
-            "SecondLine": "Second Line 2 3"
-          }
-        },
-        {
-          "thumbnail": "/thumb/slide-2-3.png",
-          "title": "this is a test",
-          "templateData": {
-            "@": "ventuz://templates/ingame/Scene",
-            "FirstLine": "First Line 2 3",
-            "FirstAdd": "Addon Text 2 3",
-            "SecondLine": "Second Line 2 3"
-          }
-        },
-        {
-          "thumbnail": "/thumb/slide-2-3.png",
-          "title": "this is a test",
-          "templateData": {
-            "@": "ventuz://templates/ingame/Scene",
-            "FirstLine": "First Line 2 3",
-            "FirstAdd": "Addon Text 2 3",
-            "SecondLine": "Second Line 2 3"
-          }
-        },
-        {
-          "thumbnail": "/thumb/slide-2-3.png",
-          "title": "this is a test",
-          "templateData": {
-            "@": "ventuz://templates/ingame/Scene",
-            "FirstLine": "First Line 2 3",
-            "FirstAdd": "Addon Text 2 3",
-            "SecondLine": "Second Line 2 3"
+            "@": "template/path",
+            "property": "value"
           }
         }
       ]
