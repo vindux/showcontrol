@@ -26,6 +26,10 @@
 - [ ] Add "Next" button to left of "Take", checks last slide played and cues the next one in the json (jumps to next chapter if current slide is last in its chapter)
 - [ ] Add (toggle) button "Skip animations" to left of "Next" button, tells ventuz to skip playing in/out animations
 
+### Video
+- [ ] Add video controls. Draggable bar to scrub through currently playing video. Pause/play.
+- [ ] Probable add this to footer bar, maybe have to move custom buttoms elsewhere
+
 ## Later additions
 - [ ] Ventuz integration directly
 - [ ] Communicate over remoting/vms instead of osc
