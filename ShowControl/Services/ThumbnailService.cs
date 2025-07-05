@@ -1,7 +1,9 @@
 ﻿using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Resources;
 using ShowControl.Constants;
 
 namespace ShowControl.Services
@@ -72,27 +74,31 @@ namespace ShowControl.Services
         {
             try
             {
-                string missingImagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AppConstants.MissingImageFileName);
+                Uri missingImageUri = new Uri(AppConstants.MissingImageFile, UriKind.Absolute);
+                StreamResourceInfo? resourceInfo = Application.GetResourceStream(missingImageUri);
 
-                if (File.Exists(missingImagePath))
+                if (resourceInfo != null)
                 {
                     BitmapImage bitmap = new BitmapImage();
                     bitmap.BeginInit();
-                    bitmap.UriSource = new Uri(missingImagePath, UriKind.Absolute);
+                    bitmap.UriSource = missingImageUri;
                     bitmap.DecodePixelWidth = width;
                     bitmap.DecodePixelHeight = height;
                     bitmap.CacheOption = BitmapCacheOption.OnLoad;
                     bitmap.EndInit();
                     return bitmap;
                 }
-            }
-            catch
-            {
+
+                Console.WriteLine("Missing image resource not found");
                 return CreateFallbackImage(width, height);
             }
-            return CreateFallbackImage(width, height);
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading missing image: {ex.Message}");
+                return CreateFallbackImage(width, height);
+            }
         }
-
+        
         /// <summary>
         /// Creates a programmatically generated fallback image when no thumbnail is available
         /// </summary>
@@ -102,6 +108,7 @@ namespace ShowControl.Services
         /// <exception cref="SystemException">Thrown when the fallback image cannot be created</exception>
         private BitmapImage CreateFallbackImage(int width, int height)
         {
+            Console.WriteLine("Creating fallback image");
             try
             {
                 DrawingVisual drawingVisual = new DrawingVisual();

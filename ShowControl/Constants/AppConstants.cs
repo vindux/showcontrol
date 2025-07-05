@@ -51,9 +51,9 @@
         #region File and Dialog Constants
 
         /// <summary>
-        /// Filename for the missing image placeholder
+        /// Filepath for the missing image placeholder
         /// </summary>
-        public const string MissingImageFileName = "missing-image.png";
+        public const string MissingImageFile = "pack://application:,,,/Resources/missing.png";
 
         /// <summary>
         /// File filter string for the JSON file selection dialog

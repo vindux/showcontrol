@@ -6,30 +6,26 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UseWPF>true</UseWPF>
+        <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+        
+        <!-- Single file settings -->
+        <PublishSingleFile>true</PublishSingleFile>
+        <SelfContained>true</SelfContained>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+        <IncludeNativeLibrariesForSelfContained>true</IncludeNativeLibrariesForSelfContained>
+        <PublishReadyToRun>false</PublishReadyToRun>
+        <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
-
-    <ItemGroup>
-      <None Update="data.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="missing-image.png">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="data-with-very-long-file-name.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="ico.png" />
-    </ItemGroup>
-
+    
     <ItemGroup>
       <Resource Include="Resources\icon.png" />
+      <Resource Include="Resources\missing.png" />
+      <None Remove="Resources\icon.ico" />
+      <Resource Include="Resources\icon.ico" />
     </ItemGroup>
 
 </Project>

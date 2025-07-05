@@ -301,7 +301,7 @@ namespace ShowControl
             StackPanel statusPanel = new StackPanel
             {
                 Orientation = Orientation.Horizontal,
-                Height = 20, // Increased from 30 to 40 to accommodate larger text
+                Height = 20,
                 Margin = new Thickness(0, 0, 0, 5)
             };
 
